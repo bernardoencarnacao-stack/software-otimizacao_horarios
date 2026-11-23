@@ -5,6 +5,7 @@ As soluções ótimas já estão calculadas em resultados/ (para recalcular: pyt
 """
 import io
 
+import altair as alt
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -14,6 +15,29 @@ from horarios.avaliar import INDICADORES
 
 st.set_page_config(page_title="Horários ISCTE", page_icon="🗓️", layout="wide")
 DIAS = {"Seg": "Segunda", "Ter": "Terça", "Qua": "Quarta", "Qui": "Quinta", "Sex": "Sexta", "Sáb": "Sábado"}
+AZUL, AZUL_ESCURO, VERDE, LARANJA, AMARELO, ROXO = "#2a78d6", "#1f3864", "#1baf7a", "#eb6834", "#eda100", "#7b61c9"
+
+# ---------------------------------------------------------------------------- estilo (cores)
+st.markdown(f"""
+<style>
+.banner {{background: linear-gradient(120deg, {AZUL_ESCURO} 0%, {AZUL} 70%, #4fa3e8 100%); color: white;
+          padding: 26px 32px; border-radius: 16px; margin-bottom: 8px;}}
+.banner h1 {{color: white; margin: 0; padding: 0; font-size: 2.1rem;}}
+.banner p {{color: #dbe8fb; margin: 6px 0 0 0; font-size: 1rem;}}
+.cartao {{background: white; border: 1px solid #e3e8f0; border-left: 6px solid var(--cor); border-radius: 12px;
+          padding: 14px 18px; box-shadow: 0 1px 3px rgba(31,56,100,.06); height: 100%;}}
+.cartao .t {{color: #5b6478; font-size: .9rem;}}
+.cartao .v {{color: {AZUL_ESCURO}; font-size: 2rem; font-weight: 700; line-height: 1.2;}}
+.cartao .d {{font-size: .85rem; font-weight: 600; color: {VERDE};}}
+.caixa {{background: var(--fundo); border-radius: 12px; padding: 16px 20px; height: 100%;}}
+.caixa h4 {{margin: 0 0 6px 0; color: var(--cor);}}
+.caixa p, .caixa li {{color: #2b3242; font-size: .95rem; margin-bottom: 2px;}}
+.antes-depois {{font-size: 1.6rem; font-weight: 700; color: {AZUL_ESCURO};}}
+.antes-depois s {{color: #a0a7b4; font-weight: 500;}}
+.stTabs [data-baseweb="tab"] {{font-weight: 600; font-size: 1rem;}}
+h3 {{color: {AZUL_ESCURO};}}
+</style>
+""", unsafe_allow_html=True)
 
 
 def fmt(n):
@@ -22,6 +46,18 @@ def fmt(n):
 
 def hhmm(m):
     return f"{int(m) // 60:02d}:{int(m) % 60:02d}"
+
+
+def cartao(col, titulo, valor, cor, delta=None):
+    d = (f'<div class="d" style="color:{VERDE if delta < 0 else LARANJA}">{"▼" if delta < 0 else "▲"} '
+         f'{fmt(abs(delta))} face ao atual</div>') if delta else ""
+    col.markdown(f'<div class="cartao" style="--cor:{cor}"><div class="t">{titulo}</div>'
+                 f'<div class="v">{valor}</div>{d}</div>', unsafe_allow_html=True)
+
+
+def caixa(col, titulo, html, cor, fundo):
+    col.markdown(f'<div class="caixa" style="--cor:{cor};--fundo:{fundo}"><h4>{titulo}</h4>{html}</div>',
+                 unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------------------------- dados e soluções (carregados uma vez)
@@ -53,41 +89,67 @@ otima = indicadores("Ótima", otimo_h)
 
 @st.cache_data(show_spinner=False)
 def aulas_semanais():
-    """Uma linha por aula semanal (mesmo turno, dia da semana e horário), com as salas antes e depois."""
+    """Uma linha por aula semanal (mesmo turno, dia da semana e horário), com a sala na solução ótima."""
     oc = (p.aula_bloco.assign(serie=p.serie[p.aula_bloco["bloco"].to_numpy()])
-          .merge(aulas[["aula_id", "sala"]], on="aula_id")
-          .merge(otimo_h[["aula_id", "sala"]].rename(columns={"sala": "nova"}), on="aula_id"))
-
-    def listar(v):
-        c = v.fillna("(sem sala)").value_counts()
-        return ", ".join(f"{k} ({n})" if len(c) > 1 else k for k, n in c.items())
-
+          .merge(otimo_h[["aula_id", "sala"]], on="aula_id"))
     se = p.blocos.assign(serie=p.serie).groupby("serie").agg(
         curso=("curso", "first"), uc=("uc", "first"), turno=("turno", "first"), dia_semana=("dia_semana", "first"),
         ini=("ini_min", "min"), fim=("fim_min", "max"), inscritos=("inscritos", "first"), pedida=("pedida", "first"))
     se["dia"] = se["dia_semana"].map(DIAS).fillna(se["dia_semana"])
     se["horas"] = se["ini"].map(hhmm) + "–" + se["fim"].map(hhmm)
-    se["sala antes"] = oc.groupby("serie")["sala"].agg(listar)
-    se["sala depois"] = oc.groupby("serie")["nova"].agg(listar)
-    se["muda"] = se["sala antes"] != se["sala depois"]
+    se["sala"] = oc.groupby("serie")["sala"].agg(lambda v: ", ".join(v.dropna().unique()))
     return se, oc
 
 
-st.title("Gestão de horários do ISCTE")
-st.caption("Projeto 1 · Otimização e Decisão em Engenharia de Software · Item 4 (alocação de salas) e item 5 "
-           "(comparação de propostas)")
+st.markdown('<div class="banner"><h1>🗓️ Gestão de horários do ISCTE</h1>'
+            '<p>Projeto 1 · Otimização e Decisão em Engenharia de Software · Item 4 (alocação de salas) e '
+            'item 5 (comparação de propostas)</p></div>', unsafe_allow_html=True)
 
-pag1, pag2, pag3, pag4, pag5 = st.tabs(["1 · Horário atual", "2 · Solução ótima", "3 · Sugerir sala",
-                                        "4 · Comparar propostas", "5 · Método e prioridades"])
+pag1, pag2, pag3, pag4, pag5 = st.tabs(["🏠 Início", "✅ Solução ótima", "🔎 Sugerir sala",
+                                        "⚖️ Comparar propostas", "🧪 Métodos"])
 
-# ============================================================================ 1. HORÁRIO ATUAL
+# ============================================================================ 1. INÍCIO
 with pag1:
+    st.subheader("O que fizemos")
+    st.write("Partimos do horário de exemplo do ISCTE (dias e horas já marcados) e tratámos de duas perguntas: "
+             "**em que sala deve ficar cada aula?** e **como comparar propostas de alteração de várias pessoas?**")
+    c1, c2, c3 = st.columns(3)
+    caixa(c1, "Item 4 · Alocação de salas",
+          "<p>Calculámos a <b>melhor alocação de salas possível</b>, tendo em conta os inscritos e o tipo de sala, "
+          "com <b>prova</b> de que não há melhor. Também sugerimos salas para uma aula concreta.</p>"
+          "<p>👉 páginas <b>Solução ótima</b> e <b>Sugerir sala</b></p>", AZUL, "#eaf2fc")
+    caixa(c2, "Item 5 · Comparar propostas",
+          "<p>Cada pessoa propõe alterações num ficheiro CSV. A app aplica-as e <b>ordena as propostas</b> com o "
+          "mesmo critério, sem pesos, e explica porque é que uma proposta não serve.</p>"
+          "<p>👉 página <b>Comparar propostas</b></p>", VERDE, "#e6f6ef")
+    caixa(c3, "Como · Solver exato",
+          "<p>Programação inteira com o solver <b>HiGHS</b>. Comparámos com quatro heurísticas: a melhor fica "
+          "25% acima do ótimo.</p><p>👉 página <b>Métodos</b></p>", ROXO, "#f1edfb")
+
+    st.markdown("&nbsp;")
+    st.markdown("**As regras, sem pesos**")
+    st.markdown("""
+1. **Obrigatório:** ninguém muda de sala a meio da aula (aulas seguidas ou sobrepostas do mesmo turno, no mesmo dia,
+   ficam na mesma sala).
+2. **Objetivo:** o menor número de **aulas com problemas** - sobrelotadas ou em sala de tipo errado (contam igual).
+3. **Preferência:** sem piorar o objetivo, a mesma sala de semana para semana.
+""")
+    st.markdown("**O resultado**")
+    c = st.columns(3)
+    for col, titulo, a, d, cor in [(c[0], "Aulas com problemas", atual["problemas"], otima["problemas"], AZUL),
+                                   (c[1], "Aulas sem sala", atual["sem_sala"], otima["sem_sala"], LARANJA),
+                                   (c[2], "Aulas que mudam de sala a meio", atual["muda_a_meio"], otima["muda_a_meio"], VERDE)]:
+        col.markdown(f'<div class="cartao" style="--cor:{cor}"><div class="t">{titulo}</div>'
+                     f'<div class="antes-depois"><s>{fmt(a)}</s> → {fmt(d)}</div></div>', unsafe_allow_html=True)
+
+    st.divider()
     st.subheader("Como está o horário atual")
     c = st.columns(4)
-    c[0].metric("Aulas (cada semana conta uma)", fmt(len(aulas)))
-    c[1].metric("Aulas sem sala", fmt(atual["sem_sala"]))
-    c[2].metric("Aulas sobrelotadas", fmt(atual["sobrelotadas"]))
-    c[3].metric("Sala de tipo errado", fmt(atual["tipo_errado"]))
+    cartao(c[0], "Aulas (cada semana conta uma)", fmt(len(aulas)), AZUL)
+    cartao(c[1], "Aulas sem sala", fmt(atual["sem_sala"]), LARANJA)
+    cartao(c[2], "Aulas sobrelotadas", fmt(atual["sobrelotadas"]), AMARELO)
+    cartao(c[3], "Sala de tipo errado", fmt(atual["tipo_errado"]), ROXO)
+    st.write("")
     st.write(f"No total, **{fmt(atual['problemas'])} aulas com problemas** (sobrelotadas ou em sala de tipo errado) "
              f"e {fmt(atual['sem_sala'])} aulas sem sala.")
 
@@ -110,8 +172,7 @@ with pag2:
     st.subheader("A melhor alocação de salas possível")
     st.markdown("""
 - Os dias e as horas ficam iguais; só mudam as **salas**.
-- **Regra obrigatória:** ninguém muda de sala a meio da aula (aulas seguidas ou sobrepostas do mesmo turno, no mesmo
-  dia, ficam na mesma sala).
+- **Regra obrigatória:** ninguém muda de sala a meio da aula.
 - **Objetivo:** o menor número de **aulas com problemas** (sobrelotada ou sala de tipo errado contam igual). Depois,
   sem piorar isto, a mesma sala de semana para semana sempre que possível.
 """)
@@ -121,12 +182,12 @@ with pag2:
                    f"com problemas (hoje são {fmt(atual['problemas'])}).", icon="✅")
 
     c = st.columns(4)
-    for col, k, nome in zip(c, ["problemas", "sobrelotadas", "tipo_errado", "sem_sala"],
-                            ["Aulas com problemas", "Aulas sobrelotadas", "Sala de tipo errado", "Aulas sem sala"]):
-        col.metric(nome, fmt(otima[k]), fmt(otima[k] - atual[k]), delta_color="inverse")
-    st.caption(f"Setas: diferença para o horário atual. Mudam de sala a meio: {otima['muda_a_meio']} "
-               f"(hoje {atual['muda_a_meio']}). Fora da sala habitual numa semana: {fmt(otima['sala_varia'])} "
-               f"(hoje {fmt(atual['sala_varia'])}).")
+    for col, k, nome, cor in zip(c, ["problemas", "sobrelotadas", "tipo_errado", "sem_sala"],
+                                 ["Aulas com problemas", "Aulas sobrelotadas", "Sala de tipo errado", "Aulas sem sala"],
+                                 [AZUL, AMARELO, ROXO, LARANJA]):
+        cartao(col, nome, fmt(otima[k]), cor, otima[k] - atual[k])
+    st.caption(f"Mudam de sala a meio: {otima['muda_a_meio']} (hoje {atual['muda_a_meio']}). Fora da sala habitual "
+               f"numa semana: {fmt(otima['sala_varia'])} (hoje {fmt(atual['sala_varia'])}).")
 
     with st.expander("Ver a prova, dia a dia"):
         st.write("O solver devolve a solução e um **limite inferior** (abaixo dele é impossível descer). "
@@ -135,18 +196,28 @@ with pag2:
                      .rename(columns={"valor": "aulas com problemas", "limite_inferior": "limite inferior",
                                       "provado_otimo": "provado ótimo?"}), hide_index=True, width="stretch")
 
-    st.markdown("#### O que muda")
-    se, _ = aulas_semanais()
-    muda = se[se["muda"]]
-    curso2 = st.selectbox("Curso", ["(todos)"] + sorted(muda["curso"].unique()), key="curso2")
-    if curso2 != "(todos)":
-        muda = muda[muda["curso"] == curso2]
-    st.caption(f"{fmt(len(muda))} aulas semanais mudam de sala. Entre parênteses: em quantas semanas.")
-    st.dataframe(muda[["curso", "uc", "turno", "dia", "horas", "inscritos", "pedida", "sala antes", "sala depois"]],
-                 hide_index=True, width="stretch", height=330)
     exp = otimo_h.drop(columns=["ini_min", "fim_min"]).assign(data=otimo_h["data"].dt.strftime("%Y-%m-%d"))
-    st.download_button("Descarregar o horário com as novas salas (CSV)", exp.to_csv(index=False, sep=";"),
-                       file_name="horario_otimo.csv", mime="text/csv")
+    st.download_button("⬇️ Descarregar o horário otimizado (CSV)", exp.to_csv(index=False, sep=";"),
+                       file_name="horario_otimo.csv", mime="text/csv", type="primary")
+
+    st.divider()
+    st.subheader("Extra: e se um problema for mais importante do que o outro?")
+    st.write("A solução principal conta sobrelotação e tipo de sala por igual. Calculámos também as soluções ótimas "
+             "para as duas ordens de prioridade possíveis. Cada uma é provada ótima para a sua ordem.")
+    ordem = {"Ótima": ("Principal", "os dois contam igual", AZUL),
+             "Sobrelotação primeiro": ("Sobrelotação primeiro", "1.º sobrelotação, 2.º tipo de sala", AMARELO),
+             "Tipo de sala primeiro": ("Tipo de sala primeiro", "1.º tipo de sala, 2.º sobrelotação", ROXO)}
+    c = st.columns(3)
+    for col, (k, (titulo, desc, cor)) in zip(c, ordem.items()):
+        r = indicadores(k, solucoes[k])
+        col.markdown(f'<div class="cartao" style="--cor:{cor}"><div class="t">{desc}</div>'
+                     f'<div class="v" style="font-size:1.3rem">{titulo}</div>'
+                     f'<div class="t">{fmt(r["problemas"])} aulas com problemas: <b>{fmt(r["sobrelotadas"])}</b> '
+                     f'sobrelotadas + <b>{fmt(r["tipo_errado"])}</b> tipo errado</div></div>', unsafe_allow_html=True)
+    st.write("")
+    st.info("As três têm o **mesmo total**; só muda a divisão. É possível ter **zero aulas sobrelotadas** sem "
+            "aumentar o total de problemas, à custa de mais aulas em sala de tipo errado. Quem decide escolhe.",
+            icon="💡")
 
 # ============================================================================ 3. SUGERIR SALA
 with pag3:
@@ -168,7 +239,7 @@ with pag3:
         ocorrencias = list(zip(minhas["data"], minhas["ini_min"], minhas["fim_min"]))
         inscritos, pedida, ignorar = se.loc[serie, "inscritos"], se.loc[serie, "pedida"], ids
         st.caption(f"Tipo pedido: **{pedida}** · {len(ocorrencias)} aulas · sala na solução ótima: "
-                   f"**{se.loc[serie, 'sala depois']}**")
+                   f"**{se.loc[serie, 'sala']}**")
     else:
         c1, c2, c3, c4, c5 = st.columns(5)
         dia_s = c1.selectbox("Dia", list(DIAS)[:5], format_func=DIAS.get)
@@ -206,10 +277,12 @@ a meio → **4.º** menos aulas fora da sala habitual.
     c1, c2 = st.columns(2)
     ficheiros = c1.file_uploader("Carregar propostas (CSV)", type="csv", accept_multiple_files=True)
     exemplos = c2.checkbox("Incluir as 3 propostas de exemplo (simuladas por nós)", value=True)
-    with open("exemplos/exemplo3_docentes_sabado.csv", "rb") as f:
-        c2.download_button("Descarregar um ficheiro de exemplo", f, file_name="exemplo_proposta.csv")
+    prioridades = c2.checkbox("Incluir as soluções com prioridades (página Solução ótima)", value=False)
 
     variantes = {"Horário atual": aulas, "Solução ótima": otimo_h}
+    if prioridades:
+        for nome in ["Sobrelotação primeiro", "Tipo de sala primeiro"]:
+            variantes[f"Prioridade: {nome.lower()}"] = solucoes[nome]
     if exemplos:
         for nome, ficheiro in [("Exemplo 1: gabinete dá sala às aulas sem sala", "exemplo1_gabinete_espacos"),
                                ("Exemplo 2: coordenação pede salas maiores", "exemplo2_coordenacao_curso"),
@@ -227,11 +300,25 @@ a meio → **4.º** menos aulas fora da sala habitual.
                       ascending=[False, True, True, True]).reset_index(drop=True)
     t.insert(0, "Lugar", [f"{i + 1}.º" if u else "—" for i, u in enumerate(t["utilizavel"])])
     t["Utilizável"] = t["utilizavel"].map({True: "✅ sim", False: "❌ não"})
-    colunas = ["problemas", "sem_sala", "choques_sala", "muda_a_meio", "sala_varia"]
-    st.dataframe(t[["Lugar", "Proposta", "Utilizável"] + colunas]
-                 .rename(columns={"problemas": "Aulas com problemas", **INDICADORES}), hide_index=True, width="stretch")
-    st.caption(f"Nenhuma proposta pode ter menos de {fmt(otima['problemas'])} aulas com problemas sem mexer em dias "
-               "ou horas: é o mínimo provado (página 2).")
+    nomes = {"problemas": "Com problemas", "sobrelotadas": "Sobrelotadas", "tipo_errado": "Tipo errado",
+             "sem_sala": "Sem sala", "choques_sala": "Choques", "muda_a_meio": "Mudam a meio",
+             "sala_varia": "Fora da sala habitual"}
+    tabela = t[["Lugar", "Proposta", "Utilizável"] + list(nomes)].rename(columns=nomes)
+    melhores = ["Com problemas", "Sobrelotadas", "Tipo errado", "Mudam a meio", "Fora da sala habitual"]
+
+    def pintar(col):
+        if col.name in melhores and t["utilizavel"].any():
+            melhor = col[t["utilizavel"].to_numpy()].min()
+            return [f"background-color: #c9efdc; color: #0d6b47; font-weight: 600" if (u and v == melhor) else ""
+                    for u, v in zip(t["utilizavel"], col)]
+        if col.name in ["Sem sala", "Choques"]:
+            return ["background-color: #fde2d6; color: #a33a12; font-weight: 600" if v > 0 else "" for v in col]
+        return [""] * len(col)
+
+    st.dataframe(tabela.style.apply(pintar), hide_index=True, width="stretch")
+    st.caption(f"🟩 o melhor valor de cada coluna entre as propostas utilizáveis · 🟧 o que torna uma proposta "
+               f"inutilizável. Nenhuma proposta pode ter menos de {fmt(otima['problemas'])} aulas com problemas sem "
+               "mexer em dias ou horas: é o mínimo provado.")
 
     for linha in t[~t["utilizavel"]].itertuples():
         with st.expander(f"Porque é que '{linha.Proposta}' não é utilizável?"):
@@ -243,7 +330,7 @@ a meio → **4.º** menos aulas fora da sala habitual.
                                   fim=m["fim_min"].map(hhmm))[["uc", "turno", "data", "inicio", "fim", "sala"]],
                          hide_index=True, width="stretch")
 
-# ============================================================================ 5. MÉTODO E PRIORIDADES
+# ============================================================================ 5. MÉTODOS
 with pag5:
     st.subheader("Porque usamos um solver exato")
     st.write("Comparámos o solver exato com quatro heurísticas (métodos rápidos, mas sem garantia de chegar ao "
@@ -255,21 +342,24 @@ with pag5:
             "Solver exato": "programação inteira (HiGHS): solução + prova"}
     otimo_n = int(metodos.loc[metodos["metodo"] == "Solver exato", "problemas"].iloc[0])
     m = metodos.groupby("metodo")["problemas"].mean().reindex(list(como)).round().astype(int)
+    grafico = pd.DataFrame({"Método": ["Horário atual"] + list(m.index),
+                            "Aulas com problemas": [atual["problemas"]] + list(m.values)})
+    grafico["tipo"] = ["atual"] + ["heurística"] * 4 + ["exato"]
+    barras = alt.Chart(grafico).mark_bar(cornerRadiusEnd=6, height=26).encode(
+        y=alt.Y("Método:N", sort=None, title=None, axis=alt.Axis(labelFontSize=13, labelLimit=220)),
+        x=alt.X("Aulas com problemas:Q", title="Aulas com problemas"),
+        color=alt.Color("tipo:N", scale=alt.Scale(domain=["atual", "heurística", "exato"],
+                                                  range=["#a0a7b4", AZUL, VERDE]), legend=None),
+        tooltip=["Método", "Aulas com problemas"])
+    texto = barras.mark_text(align="left", dx=6, fontSize=13, fontWeight="bold", color="#2b3242").encode(
+        text="Aulas com problemas:Q")
+    st.altair_chart((barras + texto).properties(height=300), width="stretch")
+
     st.dataframe(pd.DataFrame({"Método": m.index, "Como funciona": [como[k] for k in m.index],
                                "Aulas com problemas": m.values,
                                "Acima do ótimo": [f"+{(v / otimo_n - 1) * 100:.0f}%" if k != "Solver exato"
                                                   else "ótimo provado" for k, v in m.items()]}),
                  hide_index=True, width="stretch")
-    st.write(f"A melhor heurística (pesquisa tabu) fica com {m['Pesquisa tabu']} aulas com problemas; o solver chega "
-             f"a {otimo_n} e prova que não há melhor, em cerca de 3 minutos.")
-
-    st.subheader("Extra: e se um problema for mais importante do que o outro?")
-    st.write("A solução principal conta sobrelotação e tipo de sala por igual. Calculámos também as soluções ótimas "
-             "para as duas ordens de prioridade possíveis.")
-    ordem = {"Ótima": "os dois contam igual (solução principal)", "Sobrelotação primeiro": "sobrelotação → tipo de sala",
-             "Tipo de sala primeiro": "tipo de sala → sobrelotação"}
-    t5 = pd.DataFrame([{"Solução": k, "Prioridade": v, **indicadores(k, solucoes[k])} for k, v in ordem.items()])
-    st.dataframe(t5[["Solução", "Prioridade", "problemas", "sobrelotadas", "tipo_errado", "sala_varia"]]
-                 .rename(columns={"problemas": "Aulas com problemas", **INDICADORES}), hide_index=True, width="stretch")
-    st.caption("As três têm o mesmo total: só muda a divisão. É possível ter zero aulas sobrelotadas sem aumentar o "
-               "total de problemas.")
+    st.success(f"A melhor heurística (pesquisa tabu) fica com **{m['Pesquisa tabu']}** aulas com problemas; o solver "
+               f"chega a **{otimo_n}** e prova que não há melhor, em cerca de 3 minutos. Por isso a solução da app vem "
+               "do solver exato.", icon="🏆")

@@ -15,23 +15,24 @@ Para perceber o projeto de ponta a ponta, sem jargão: **[GUIA.md](GUIA.md)**.
 - **Regra obrigatória:** ninguém muda de sala a meio da aula (aulas seguidas ou sobrepostas do mesmo turno, no mesmo
   dia, ficam na mesma sala). Entre semanas a sala pode mudar.
 - **Objetivo, sem pesos:** o menor número de aulas com problemas (sobrelotadas ou em sala de tipo errado, a contar
-  igual). Depois, sem piorar isto, tenta se ter a mesma sala de semana para semana.
+  igual). Depois, sem piorar isto, a mesma sala de semana para semana.
 - **Método:** programação inteira com o solver **HiGHS**, que dá a solução e a prova. Comparámos com 4 heurísticas:
-  a melhor (a pesquisa tabu) ainda fica 25% acima do ótimo.
+  a melhor (pesquisa tabu) fica 25% acima do ótimo.
 
 | | Aulas com problemas | Sobrelotadas | Tipo errado | Sem sala | Mudam a meio |
 |---|---:|---:|---:|---:|---:|
 | Horário atual | 3 983 | 3 330 | 653 | 1 013 | 47 |
 | **Solução ótima (provada)** | **677** | 409 | 268 | 0 | 0 |
 
-## Correr a app localmente
+## Correr a app
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Embora a mesma também esteja publicada no Streamlit Community Cloud estando disponível através do link de acesso: 
+No Windows, se os comandos não forem reconhecidos: `python -m pip install -r requirements.txt` e
+`python -m streamlit run app.py`. A app abre em http://localhost:8501.
 
 ## O que está em cada pasta
 
@@ -76,4 +77,4 @@ docs/
 - A garantia de ótimo vale para o número de aulas com problemas, com dias e horas fixos e os pressupostos do
   `GUIA.md` (secção 11).
 - A preferência "mesma sala entre semanas" é resolvida por pesquisa local, sem prova de ótimo.
-- As propostas em `exemplos/` são simuladas por nós.
+- As propostas em `exemplos/` são simuladas.

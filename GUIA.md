@@ -16,12 +16,13 @@ Não mexemos nos dias nem nas horas das aulas: isso seria o item 3.
 **O que pede o item 4, exatamente?** *"Permita a alocação (**sugestão**) de salas às aulas que estão previstas num
 horário, tendo em consideração os requisitos das aulas (v.g. número de estudantes inscritos e o tipo de sala)."*
 A **sugestão é da aplicação para o utilizador**: o horário já tem os dias e as horas, e a aplicação sugere a sala de
-cada aula. Fazemo-lo de duas formas: (1) para o horário todo de uma vez - a solução ótima (página 2 da app); (2) para **uma
+cada aula. Fazemo-lo de duas formas: (1) para o horário todo de uma vez - a solução ótima (página "Solução ótima" da app); (2) para **uma
 aula** escolhida pelo utilizador, existente ou nova - a app lista as salas livres em todas as semanas dessa aula,
-da mais adequada para a menos adequada (página 3, "Sugerir sala"). 
+da mais adequada para a menos adequada (página "Sugerir sala"). O utilizador a *propor* alterações
+ao horário é o item 5 (e o item 8).
 
 **Porquê os itens 4 e 5?** São os mais fáceis de fazer bem com os dados que o professor deu (inscritos, capacidades,
-tipos de sala, horas).
+tipos de sala, horas). O item 3 precisava de dados que não temos (professores, planos de estudo) e é muito maior.
 
 ---
 
@@ -43,11 +44,11 @@ Limpeza (`horarios/dados.py`):
 
 | Indicador | O que é | Tipo |
 |---|---|---|
-| Aulas sem sala | a aula pede sala e não tem | **grave (hard restriction)**: o horário não se pode usar |
-| Choques de sala | duas aulas na mesma sala à mesma hora | **grave (hard restriction)** |
+| Aulas sem sala | a aula pede sala e não tem | **grave**: o horário não se pode usar |
+| Choques de sala | duas aulas na mesma sala à mesma hora | **grave** |
 | Aulas sobrelotadas | mais inscritos do que lugares | **problema** |
 | Sala de tipo errado | pediu laboratório e calhou numa sala normal, por exemplo | **problema** |
-| Muda de sala a meio | aulas seguidas (ou sobrepostas) do mesmo turno, no mesmo dia, em salas diferentes | **grave (hard restriction)** na solução |
+| Muda de sala a meio | aulas seguidas (ou sobrepostas) do mesmo turno, no mesmo dia, em salas diferentes | **proibido** na solução |
 | Fora da sala habitual | numa semana, a aula não está na sala onde essa aula semanal está mais vezes | preferência |
 
 **"Aulas com problemas"** = aulas sobrelotadas + aulas em sala de tipo errado.
@@ -249,7 +250,7 @@ não teríamos como saber - é por isso que o professor perguntou "quem vos gara
 
 ---
 
-## 8. Extra: prioridades (página 5 da app)
+## 8. Extra: prioridades (página "Solução ótima" da app)
 
 A solução principal trata sobrelotação e tipo de sala como igualmente importantes. Se o ISCTE quiser dar prioridade a
 uma delas, calculámos também, com o solver exato:
@@ -301,11 +302,14 @@ As 3 propostas de exemplo **fomos nós que as simulámos** (`scripts/criar_exemp
 
 Feita com **Streamlit** (biblioteca de Python que transforma um script numa página web). 5 páginas:
 
-1. **Horário atual:** os números e a lista de aulas com problemas, por curso.
-2. **Solução ótima (item 4):** o resultado, a prova dia a dia, o que muda e o download do novo horário.
+1. **Início:** o que fizemos, as regras e o resultado em resumo; depois, o horário atual (números e lista de aulas
+   com problemas, por curso).
+2. **Solução ótima (item 4):** o resultado, a prova dia a dia, o download do horário otimizado e, no fim, o extra das
+   prioridades.
 3. **Sugerir sala (item 4):** salas livres para uma aula existente ou nova.
-4. **Comparar propostas (item 5):** carregar CSVs e classificá-los.
-5. **Método e prioridades:** heurísticas contra o ótimo e o extra das prioridades.
+4. **Comparar propostas (item 5):** carregar CSVs e classificá-los; a verde, o melhor valor de cada coluna. Pode
+   incluir as soluções com prioridades.
+5. **Métodos:** as heurísticas contra o solver exato.
 
 As soluções ótimas são calculadas antes (`scripts/calcular_otimo.py`, ~17 minutos para os 3 cenários) e a app só
 as lê, por isso abre logo.
@@ -346,7 +350,7 @@ Estão em `docs/diagramas/` e também no relatório.
 
 **"Quem define os pesos?"**
 Ninguém: não há pesos. O objetivo é o que o enunciado pede (inscritos e tipo de sala), com os dois a contar igual.
-A mesma sala entre semanas é só uma preferência, que nunca piora o objetivo. As prioridades (página 5) são um extra.
+A mesma sala entre semanas é só uma preferência, que nunca piora o objetivo. As prioridades (no fim da página "Solução ótima") são um extra.
 
 **"Quem vos garante que não há uma solução melhor?"**
 O solver. Além da solução, calcula um limite inferior. Como a solução é igual ao limite em todos os dias, está provado
@@ -363,7 +367,7 @@ isso, e por isso mudámos de método. É a "tentativa e erro" que o professor pe
 
 **"Porque é que sobrelotação e tipo de sala contam igual?"**
 Porque são os dois requisitos que o enunciado põe lado a lado, e ambos significam "uma aula que não corre como
-devia". Se o ISCTE achar que um é mais importante, a página 5 mostra as soluções ótimas para cada prioridade.
+devia". Se o ISCTE achar que um é mais importante, a página "Solução ótima" mostra também as soluções ótimas para cada prioridade.
 
 **"Uma aula pode mudar de sala?"**
 A meio, nunca: aulas seguidas ou sobrepostas do mesmo turno no mesmo dia ficam na mesma sala (é obrigatório). De
