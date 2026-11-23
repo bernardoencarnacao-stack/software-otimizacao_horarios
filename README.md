@@ -15,7 +15,7 @@ Para perceber o projeto de ponta a ponta, sem jargão: **[GUIA.md](GUIA.md)**.
 - **Regra obrigatória:** ninguém muda de sala a meio da aula (aulas seguidas ou sobrepostas do mesmo turno, no mesmo
   dia, ficam na mesma sala). Entre semanas a sala pode mudar.
 - **Objetivo, sem pesos:** o menor número de aulas com problemas (sobrelotadas ou em sala de tipo errado, a contar
-  igual). Depois, sem piorar isto, a mesma sala de semana para semana.
+  igual). Depois, sem piorar isto, tentar que seja a mesma sala de semana para semana.
 - **Método:** programação inteira com o solver **HiGHS**, que dá a solução e a prova. Comparámos com 4 heurísticas:
   a melhor (pesquisa tabu) fica 25% acima do ótimo.
 
@@ -31,7 +31,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Embora a mesma também esteja publicada no Streamlit Community Cloud estando disponível através do link de acesso:
+Embora a mesma também esteja publicada no Streamlit Community Cloud estando disponível através do link de acesso: https://software-otimizacaohorarios-vb4zxc24yt8ktpfzds5wv9.streamlit.app/
 
 
 ## O que está em cada pasta
