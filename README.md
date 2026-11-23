@@ -24,15 +24,15 @@ Para perceber o projeto de ponta a ponta, sem jargão: **[GUIA.md](GUIA.md)**.
 | Horário atual | 3 983 | 3 330 | 653 | 1 013 | 47 |
 | **Solução ótima (provada)** | **677** | 409 | 268 | 0 | 0 |
 
-## Correr a app
+## Correr a app localmente
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-No Windows, se os comandos não forem reconhecidos: `python -m pip install -r requirements.txt` e
-`python -m streamlit run app.py`. A app abre em http://localhost:8501.
+Embora a mesma também esteja publicada no Streamlit Community Cloud estando disponível através do link de acesso:
+
 
 ## O que está em cada pasta
 
