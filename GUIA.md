@@ -18,11 +18,10 @@ horário, tendo em consideração os requisitos das aulas (v.g. número de estud
 A **sugestão é da aplicação para o utilizador**: o horário já tem os dias e as horas, e a aplicação sugere a sala de
 cada aula. Fazemo-lo de duas formas: (1) para o horário todo de uma vez - a solução ótima (página 2 da app); (2) para **uma
 aula** escolhida pelo utilizador, existente ou nova - a app lista as salas livres em todas as semanas dessa aula,
-da mais adequada para a menos adequada (página 3, "Sugerir sala"). O utilizador a *propor* alterações
-ao horário é o item 5 (e o item 8).
+da mais adequada para a menos adequada (página 3, "Sugerir sala"). 
 
 **Porquê os itens 4 e 5?** São os mais fáceis de fazer bem com os dados que o professor deu (inscritos, capacidades,
-tipos de sala, horas). O item 3 precisava de dados que não temos (professores, planos de estudo) e é muito maior.
+tipos de sala, horas).
 
 ---
 
@@ -44,11 +43,11 @@ Limpeza (`horarios/dados.py`):
 
 | Indicador | O que é | Tipo |
 |---|---|---|
-| Aulas sem sala | a aula pede sala e não tem | **grave**: o horário não se pode usar |
-| Choques de sala | duas aulas na mesma sala à mesma hora | **grave** |
+| Aulas sem sala | a aula pede sala e não tem | **grave (hard restriction)**: o horário não se pode usar |
+| Choques de sala | duas aulas na mesma sala à mesma hora | **grave (hard restriction)** |
 | Aulas sobrelotadas | mais inscritos do que lugares | **problema** |
 | Sala de tipo errado | pediu laboratório e calhou numa sala normal, por exemplo | **problema** |
-| Muda de sala a meio | aulas seguidas (ou sobrepostas) do mesmo turno, no mesmo dia, em salas diferentes | **proibido** na solução |
+| Muda de sala a meio | aulas seguidas (ou sobrepostas) do mesmo turno, no mesmo dia, em salas diferentes | **grave (hard restriction)** na solução |
 | Fora da sala habitual | numa semana, a aula não está na sala onde essa aula semanal está mais vezes | preferência |
 
 **"Aulas com problemas"** = aulas sobrelotadas + aulas em sala de tipo errado.
