@@ -8,7 +8,7 @@
 
 **App online:** [link] · **Trello:** [link] · **Relatório:** [`docs/Relatorio_Horarios_ISCTE.docx`](docs/Relatorio_Horarios_ISCTE.docx)
 
-Para perceber o projeto de ponta a ponta, sem jargão: **[GUIA.md](GUIA.md)**.
+Para perceber o projeto de ponta a ponta por favor ler: **[GUIA.md](GUIA.md)**.
 
 ## Em resumo
 
