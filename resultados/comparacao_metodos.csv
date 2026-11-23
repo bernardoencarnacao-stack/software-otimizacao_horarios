@@ -1,0 +1,12 @@
+metodo,semente,problemas,sobrelotadas,tipo_errado,mudancas,sem_sala,segundos
+Guloso,0,4057,3377,680,90,0,0.0
+Pesquisa local simples,0,858,641,217,3417,0,60.0
+Pesquisa tabu,0,846,599,247,3403,0,60.0
+Algoritmo genético,0,3078,2342,736,1567,0,63.0
+Pesquisa local simples,1,869,652,217,3414,0,60.0
+Pesquisa tabu,1,847,593,254,3408,0,60.0
+Algoritmo genético,1,3175,2399,776,1500,0,63.2
+Pesquisa local simples,2,866,649,217,3416,0,60.0
+Pesquisa tabu,2,845,596,249,3406,0,60.0
+Algoritmo genético,2,3219,2511,708,1371,0,63.2
+Solver exato,0,677,409,268,4410,0,138.6

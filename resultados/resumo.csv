@@ -1,0 +1,4 @@
+cenario,sem_sala,choques_sala,sobrelotadas,tipo_errado,mudancas,fora_mancha,muda_a_meio,sala_varia,utilizavel,problemas,sala_varia_antes_fase2
+Ótima,0,0,409,268,4410,3380,0,1005,True,677,3997
+Sobrelotação primeiro,0,0,0,677,4807,3380,0,998,True,677,4232
+Tipo de sala primeiro,0,0,620,57,4469,3380,0,1142,True,677,4042

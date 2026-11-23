@@ -1,0 +1,67 @@
+cenario,dia,fase,valor,limite_inferior,provado_otimo,segundos
+Ótima,Seg,problemas,77,77,True,11.5
+Ótima,Seg,mudancas (grupos),733,733,True,7.8
+Ótima,Seg,mudancas (salas concretas),735,735,True,5.2
+Ótima,Qui,problemas,162,162,True,14.2
+Ótima,Qui,mudancas (grupos),813,813,True,10.2
+Ótima,Qui,mudancas (salas concretas),818,818,True,6.7
+Ótima,Qua,problemas,130,130,True,13.4
+Ótima,Qua,mudancas (grupos),712,712,True,10.7
+Ótima,Qua,mudancas (salas concretas),713,713,True,6.6
+Ótima,Ter,problemas,237,237,True,12.9
+Ótima,Ter,mudancas (grupos),777,777,True,9.6
+Ótima,Ter,mudancas (salas concretas),778,778,True,6.7
+Ótima,Sex,problemas,71,71,True,7.8
+Ótima,Sex,mudancas (grupos),566,566,True,10.1
+Ótima,Sex,mudancas (salas concretas),566,566,True,4.9
+Ótima,Sáb,problemas,0,0,True,0.1
+Ótima,Sáb,mudancas (grupos),16,16,True,0.1
+Ótima,Sáb,mudancas (salas concretas),16,16,True,0.1
+Sobrelotação primeiro,Seg,sobrelotadas,0,0,True,41.7
+Sobrelotação primeiro,Seg,tipo_errado,77,77,True,11.0
+Sobrelotação primeiro,Seg,mudancas (grupos),764,764,True,5.1
+Sobrelotação primeiro,Seg,mudancas (salas concretas),766,766,True,5.9
+Sobrelotação primeiro,Qui,sobrelotadas,0,0,True,20.9
+Sobrelotação primeiro,Qui,tipo_errado,162,162,True,11.3
+Sobrelotação primeiro,Qui,mudancas (grupos),908,908,True,8.3
+Sobrelotação primeiro,Qui,mudancas (salas concretas),913,913,True,7.8
+Sobrelotação primeiro,Qua,sobrelotadas,0,0,True,22.7
+Sobrelotação primeiro,Qua,tipo_errado,130,130,True,9.2
+Sobrelotação primeiro,Qua,mudancas (grupos),798,798,True,6.2
+Sobrelotação primeiro,Qua,mudancas (salas concretas),799,799,True,5.8
+Sobrelotação primeiro,Ter,sobrelotadas,0,0,True,25.5
+Sobrelotação primeiro,Ter,tipo_errado,237,237,True,12.1
+Sobrelotação primeiro,Ter,mudancas (grupos),894,894,True,7.5
+Sobrelotação primeiro,Ter,mudancas (salas concretas),895,895,True,7.0
+Sobrelotação primeiro,Sex,sobrelotadas,0,0,True,11.5
+Sobrelotação primeiro,Sex,tipo_errado,71,71,True,8.8
+Sobrelotação primeiro,Sex,mudancas (grupos),634,634,True,7.2
+Sobrelotação primeiro,Sex,mudancas (salas concretas),634,634,True,5.7
+Sobrelotação primeiro,Sáb,sobrelotadas,0,0,True,0.1
+Sobrelotação primeiro,Sáb,tipo_errado,0,0,True,0.0
+Sobrelotação primeiro,Sáb,mudancas (grupos),16,16,True,0.0
+Sobrelotação primeiro,Sáb,mudancas (salas concretas),16,16,True,0.1
+Tipo de sala primeiro,Seg,tipo_errado,15,15,True,15.2
+Tipo de sala primeiro,Seg,sobrelotadas,62,62,True,21.7
+Tipo de sala primeiro,Seg,mudancas (grupos),757,757,True,9.9
+Tipo de sala primeiro,Seg,mudancas (salas concretas),759,759,True,5.3
+Tipo de sala primeiro,Qui,tipo_errado,11,11,True,25.5
+Tipo de sala primeiro,Qui,sobrelotadas,151,151,True,35.5
+Tipo de sala primeiro,Qui,mudancas (grupos),819,819,True,10.4
+Tipo de sala primeiro,Qui,mudancas (salas concretas),824,824,True,6.3
+Tipo de sala primeiro,Qua,tipo_errado,3,3,True,21.3
+Tipo de sala primeiro,Qua,sobrelotadas,127,127,True,86.7
+Tipo de sala primeiro,Qua,mudancas (grupos),713,713,True,49.8
+Tipo de sala primeiro,Qua,mudancas (salas concretas),714,714,True,5.9
+Tipo de sala primeiro,Ter,tipo_errado,26,26,True,13.4
+Tipo de sala primeiro,Ter,sobrelotadas,211,211,True,21.9
+Tipo de sala primeiro,Ter,mudancas (grupos),804,804,True,18.1
+Tipo de sala primeiro,Ter,mudancas (salas concretas),808,808,True,5.4
+Tipo de sala primeiro,Sex,tipo_errado,2,2,True,8.8
+Tipo de sala primeiro,Sex,sobrelotadas,69,69,True,5.8
+Tipo de sala primeiro,Sex,mudancas (grupos),566,566,True,4.4
+Tipo de sala primeiro,Sex,mudancas (salas concretas),566,566,True,5.6
+Tipo de sala primeiro,Sáb,tipo_errado,0,0,True,0.1
+Tipo de sala primeiro,Sáb,sobrelotadas,0,0,True,0.0
+Tipo de sala primeiro,Sáb,mudancas (grupos),16,16,True,0.0
+Tipo de sala primeiro,Sáb,mudancas (salas concretas),16,16,True,0.1
