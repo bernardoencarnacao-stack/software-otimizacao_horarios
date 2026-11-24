@@ -1,7 +1,6 @@
 # Gestão de horários do ISCTE
-Bernardo Encarnação nº123457 | Pedro Portugal nº122412 | Tomás Saraiva nº142847
 
-**Otimização e Decisão em Engenharia de Software · Projeto 1 · Itens 4 e 5**
+**Otimização e Decisão em Engenharia de Software · Grupo 17 · Itens 4 e 5**
 
 - **Item 4:** sugerir a melhor sala para cada aula do horário (dias e horas fixos), tendo em conta os inscritos e o
   tipo de sala.
@@ -83,3 +82,8 @@ docs/
   `GUIA.md` (secção 11).
 - A preferência "mesma sala entre semanas" é resolvida por pesquisa local, sem prova de ótimo.
 - As propostas em `exemplos/` são simuladas.
+
+## Trabalho realizado por:
+- Bernardo Encarnação nº123457
+- Pedro Portugal nº122412
+- Tomás Saraiva nº142847
