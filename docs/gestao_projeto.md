@@ -78,6 +78,6 @@ aparece na app e a decisão está explicada no `GUIA.md`.
 
 ## 3. Trello
 
-Em função deste ficheiro e metodologia SCRUM foi então criada um página Trello como forma de suporte uma visualização mais dinâmica das várias fases do projeto.
+Em função deste ficheiro e da metodologia SCRUM, foi então criada um página Trello como forma de suporte, permitindo uma visualização mais dinâmica das várias fases do projeto.
 
 Link para a Trello: https://trello.com/b/IbBfTb2Z/software-otimizacaohorarios
