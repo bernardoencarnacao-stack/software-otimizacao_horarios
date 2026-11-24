@@ -180,7 +180,7 @@ A pesquisa local não garante o mínimo: por exemplo o próprio cenário extra "
 832 aulas com problemas; agora são 677. Ou seja, 155 aulas deixam de estar sobrelotadas ou em sala de tipo errado,
 à custa de algumas aulas mudarem de sala numa ou noutra semana.
 
-**Aulas mudadas:** 4 410 aulas ficam numa sala diferente da que tinham no horário de exemplo. Muitas não resolvem um
+**Aulas mudadas face ao horário original:** 4 410 aulas ficam numa sala diferente da que tinham no horário de exemplo. Muitas não resolvem um
 problema da própria aula: libertam a sala certa para outra aula que precisa dela (um "efeito dominó").
 
 ---
