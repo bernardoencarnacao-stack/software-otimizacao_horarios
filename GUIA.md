@@ -16,8 +16,9 @@ Não mexemos nos dias nem nas horas das aulas: isso seria o item 3.
 **O que pede o item 4, exatamente?** *"Permita a alocação (**sugestão**) de salas às aulas que estão previstas num
 horário, tendo em consideração os requisitos das aulas (v.g. número de estudantes inscritos e o tipo de sala)."*
 A **sugestão é da aplicação para o utilizador**: o horário já tem os dias e as horas, e a aplicação sugere a sala de
-cada aula. Fazemo-lo de duas formas: (1) para o horário todo de uma vez - a solução ótima (página "Solução ótima" da app); (2) para **uma
-aula** escolhida pelo utilizador, existente ou nova - a app lista as salas livres em todas as semanas dessa aula,
+cada aula. Fazemo-lo de duas formas: 
+(1) para o horário todo de uma vez - a solução ótima (página "Solução ótima" da app); 
+(2) para **uma aula** escolhida pelo utilizador, existente ou nova - a app lista as salas livres em todas as semanas dessa aula,
 da mais adequada para a menos adequada (página "Sugerir sala"). O utilizador a *propor* alterações
 ao horário é o item 5 (e o item 8).
 
