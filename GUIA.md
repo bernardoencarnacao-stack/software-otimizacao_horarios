@@ -66,11 +66,13 @@ a ser a mesma aula semanal (os horários sobrepõem-se).
 ## 4. O objetivo, sem pesos
 
 Na versão anterior usávamos pesos ("uma aula sobrelotada vale 6, uma mudança vale 1..."). Descobrimos dois problemas:
-os pesos eram escolhidos por nós sem critério, e a pesquisa tabu dava soluções **piores em tudo** do que outras que
+1. os pesos eram escolhidos por nós sem critério;
+2. a pesquisa tabu (a melhor das heurísticas) dava soluções **piores em tudo** do que outras que
 se encontravam só mexendo nos pesos. Ou seja, não estava a encontrar o melhor.
 
-Agora há **uma regra obrigatória** e **um objetivo**, sem pesos:
+Agora há **duas restrições**, **uma regra obrigatória** e **um objetivo**, sem pesos:
 
+- **Duas restrições: não há aulas sem sala e não há aulas sobrepostas**, isto é, aulas que coincidem na mesma sala no mesmo dia e hora.
 - **Regra obrigatória: ninguém muda de sala a meio da aula.** Aulas do mesmo turno, no mesmo dia, que são seguidas
   (ex.: 18:00–20:00 e depois 20:00–22:00) ou que se sobrepõem, são **a mesma aula** e ficam na mesma sala.
 - **Objetivo: o menor número possível de aulas com problemas.** Sobrelotação e tipo de sala contam o mesmo - são
