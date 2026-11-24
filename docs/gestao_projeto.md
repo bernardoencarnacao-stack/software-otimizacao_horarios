@@ -22,7 +22,7 @@ grupo ao rever a app). O Scrum trabalha em ciclos curtos (sprints de 1 semana), 
 |---|---|---|
 | Product Owner | Bernardo Encarnação, Pedro Portugal e Tomás Saraiva | decide a ordem das tarefas; fala com o "cliente" (o professor) |
 | Scrum Master | Bernardo Encarnação, Pedro Portugal e Tomás Saraiva | marca as reuniões e mantém o Trello em dia |
-| Equipa | Bernardo Encarnação | todos: código, testes e documentação |
+| Equipa | Bernardo Encarnação, Pedro Portugal e Tomás Saraiva | todos: código, testes e documentação |
 
 **Reuniões**
 
