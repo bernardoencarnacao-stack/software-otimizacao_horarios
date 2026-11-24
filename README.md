@@ -3,7 +3,7 @@
 **Otimização e Decisão em Engenharia de Software · Projeto 1 · Itens 4 e 5**
 
 - **Item 4:** sugerir a melhor sala para cada aula do horário (dias e horas fixos), tendo em conta os inscritos e o
-  tipo de sala, **com prova de que não existe melhor**.
+  tipo de sala.
 - **Item 5:** comparar propostas de alteração ao horário feitas por diferentes utilizadores.
 
 **App online:** [link] · **Trello:** [link] · **Relatório:** [`docs/Relatorio_Horarios_ISCTE.docx`](docs/Relatorio_Horarios_ISCTE.docx)
