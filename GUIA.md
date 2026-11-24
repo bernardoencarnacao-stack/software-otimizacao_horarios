@@ -190,9 +190,8 @@ problema da própria aula: libertam a sala certa para outra aula que precisa del
 **Porquê o solver e não as heurísticas?** Porque medimos (secção 7): com o mesmo objetivo, a melhor heurística ficou
 25% acima do ótimo, e o solver dá a solução **e a prova** de que é a melhor.
 
-**Porque é que não começámos logo pelo solver, e porque é que o professor falou de heurísticas?**
-1. **O conselho do professor.** Fazer um horário universitário completo (item 3: dias, horas,
-   docentes e salas) é tão grande que os métodos exatos normalmente não terminam; aí as heurísticas (pesquisa tabu,
+**Porque é que não começámos logo pelo solver, e porquê heurísticas?**
+1. **O conselho do professor.** Problemas de grande dimensão como um horário universitário são tão complexos que os métodos exatos normalmente não terminam; aí as heurísticas (pesquisa tabu,
    algoritmos genéticos) são a ferramenta habitual e que de facto foram muito úteis na mesma.
 2. **O nosso item 4 é um subproblema mais pequeno e com estrutura especial**: dias e horas fixos, cada dia da semana
    independente, salas iguais entre si. Não sabíamos à partida que isso chegava - **a primeira tentativa com o solver
