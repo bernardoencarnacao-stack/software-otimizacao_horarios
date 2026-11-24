@@ -17,8 +17,8 @@ Não mexemos nos dias nem nas horas das aulas: isso seria o item 3.
 horário, tendo em consideração os requisitos das aulas (v.g. número de estudantes inscritos e o tipo de sala)."*
 A **sugestão é da aplicação para o utilizador**: o horário já tem os dias e as horas, e a aplicação sugere a sala de
 cada aula. Fazemo-lo de duas formas: 
-(1) para o horário todo de uma vez - a solução ótima (página "Solução ótima" da app); 
-(2) para **uma aula** escolhida pelo utilizador, existente ou nova - a app lista as salas livres em todas as semanas dessa aula,
+1. para o horário todo de uma vez - a solução ótima (página "Solução ótima" da app);
+2. para **uma aula** escolhida pelo utilizador, existente ou nova - a app lista as salas livres em todas as semanas dessa aula,
 da mais adequada para a menos adequada (página "Sugerir sala"). O utilizador a *propor* alterações
 ao horário é o item 5 (e o item 8).
 
@@ -140,7 +140,7 @@ Na primeira tentativa, o solver esteve 4 minutos só na terça-feira e não term
    choques e sem piorar nenhum problema.
 3. **Plano B.** Se o truque 2 prometer uma solução que, ao escolher as salas concretas, se revela impossível, esse dia
    é resolvido **sala a sala**, sem o atalho. O valor dos grupos continua a ser um limite inferior válido.
-4. **Boa solução inicial.** Damos ao solver a solução da pesquisa tabu como ponto de partida. Não muda o ótimo, só o
+4. **Boa solução inicial.** Damos ao solver a solução da pesquisa tabu (a melhor heurística) como ponto de partida. Não muda o ótimo, só o
    ajuda a chegar lá mais depressa.
 
 Com isto, a solução principal fica calculada em **cerca de 3 minutos** num portátil normal.
@@ -158,9 +158,9 @@ que as semanas da mesma aula ficam na mesma sala, em dois passos:
 
 Resultado: as aulas fora da sala habitual passam de 3 997 para **1 005** (o horário atual tem 1 299), sem mexer
 nas 677 aulas com problemas. **Esta parte não tem prova de ótimo** (é uma preferência, resolvida por pesquisa local),
-e dizemo-lo. As restantes 1 005 aulas (4% das 24 748) ficam noutra sala nessa semana porque a sala habitual está
+e admitimo-lo. As restantes 1 005 aulas (4% das 24 748) ficam noutra sala nessa semana porque a sala habitual está
 ocupada e trocar daria mais problemas, ou porque nessa semana há uma sala melhor livre (ex.: um laboratório).
-A pesquisa local não garante o mínimo: o cenário extra "Sobrelotação primeiro" chega a 998.
+A pesquisa local não garante o mínimo: por exemplo o próprio cenário extra "Sobrelotação primeiro" (ver secção 8) chega a 998.
 
 ### 5.7 Resultado
 
@@ -194,15 +194,14 @@ problema da própria aula: libertam a sala certa para outra aula que precisa del
 25% acima do ótimo, e o solver dá a solução **e a prova** de que é a melhor.
 
 **Porque é que não começámos logo pelo solver, e porque é que o professor falou de heurísticas?**
-1. **O conselho do professor é para o problema geral.** Fazer um horário universitário completo (item 3: dias, horas,
+1. **O conselho do professor.** Fazer um horário universitário completo (item 3: dias, horas,
    docentes e salas) é tão grande que os métodos exatos normalmente não terminam; aí as heurísticas (pesquisa tabu,
-   algoritmos genéticos) são a ferramenta habitual. O professor disse que não há método certo, desde que se justifique.
+   algoritmos genéticos) são a ferramenta habitual e que de facto foram muito úteis na mesma.
 2. **O nosso item 4 é um subproblema mais pequeno e com estrutura especial**: dias e horas fixos, cada dia da semana
    independente, salas iguais entre si. Não sabíamos à partida que isso chegava - **a primeira tentativa com o solver
    falhou** (a terça-feira não terminou em 4 minutos). Só com os truques da secção 5.5 passou a resolver em minutos.
 3. **O percurso foi:** heurísticas com pesos → reparámos que havia soluções piores em tudo do que outras → desconfiámos
-   que a heurística estava longe do ótimo → testámos um método exato → confirmámos e provámos. É a "tentativa e erro"
-   que o professor pediu.
+   que a heurística estava longe do ótimo → testámos um método exato → confirmámos e provámos. Foi sobretudo à base de teste e "tentativa e erro".
 
 **As heurísticas não foram inúteis:** dão ao solver o ponto de partida, a pesquisa local trata da preferência "mesma
 sala entre semanas", e seriam o plano B se o problema crescesse (por exemplo, se mexêssemos também em dias e horas).
@@ -236,18 +235,8 @@ repetições:
 | Pesquisa tabu | aceita mudanças piores + lista tabu | 846 | +25% |
 | **Solver exato** | programação inteira, com prova | **677** | **ótimo provado** |
 
-**Como funcionam as heurísticas (para o caso de perguntarem):**
-- **Guloso:** decide uma coisa de cada vez, sem voltar atrás. Põe cada bloco na sala que ele tem hoje; se essa
-  estiver ocupada (ou se não tinha sala), dá-lhe a sala livre mais adequada.
-- **Pesquisa local simples:** muda um bloco de sala de cada vez, mas só se isso melhorar. Fica presa quando nenhuma
-  mudança isolada ajuda.
-- **Pesquisa tabu:** igual, mas aceita mudanças que pioram (para sair de becos sem saída) e tem uma memória - a
-  **lista tabu** - que impede desfazer mudanças recentes e andar às voltas.
-- **Algoritmo genético:** inspira-se na evolução. Mantém 30 soluções, junta metade de uma com metade de outra
-  (cruzamento), faz pequenas alterações ao acaso (mutação) e fica com as melhores.
-
-**O que isto mostra:** as heurísticas melhoram muito o horário atual, mas ficam longe do ótimo. Sem o solver exato,
-não teríamos como saber - é por isso que o professor perguntou "quem vos garante?". A resposta é o limite inferior.
+**O que isto mostra:** as heurísticas melhoram muito o horário atual, mas ficam longe do ótimo, acabavam por ficar presas em máximos locais. Sem o solver exato,
+não teríamos como saber.
 
 ---
 
@@ -301,7 +290,7 @@ As 3 propostas de exemplo **fomos nós que as simulámos** (`scripts/criar_exemp
 
 ## 10. A app (`app.py`)
 
-Feita com **Streamlit** (biblioteca de Python que transforma um script numa página web). 5 páginas:
+Feita com **Streamlit** (biblioteca de Python que transforma um script numa página web). App tem 5 páginas/abas:
 
 1. **Início:** o que fizemos, as regras e o resultado em resumo; depois, o horário atual (números e lista de aulas
    com problemas, por curso).
