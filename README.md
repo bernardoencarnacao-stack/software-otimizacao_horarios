@@ -35,7 +35,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Embora a mesma também esteja publicada no Streamlit Community Cloud estando disponível através do link de acesso que etsá no início deste documento.
+Embora a mesma também esteja publicada no Streamlit Community Cloud acessível através do link que está no início deste documento.
 
 
 ## O que está em cada pasta
