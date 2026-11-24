@@ -69,7 +69,6 @@ exemplos/           3 propostas de alteração simuladas por nós (item 5)
 docs/
   Relatorio_Horarios_ISCTE.docx   o relatório
   gestao_projeto.md               Scrum, backlog e Trello
-  apresentacao.md                 guião da apresentação
   diagramas/                      diagramas UML (casos de uso, classes, sequência) e BPMN
 
 .streamlit/         cores da app
