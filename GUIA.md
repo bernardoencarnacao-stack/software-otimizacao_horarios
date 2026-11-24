@@ -1,7 +1,5 @@
-# Guia: como funciona o projeto (para estudar antes da apresentação)
-
-Este guia explica tudo sem jargão. Se conseguirem explicar cada secção por palavras vossas, conseguem defender o
-trabalho. No fim há perguntas que o professor pode fazer, com sugestões de resposta.
+# Guia: como funciona o projeto 
+Este guia explica tudo sobre o projeto.
 
 ---
 
@@ -23,7 +21,7 @@ da mais adequada para a menos adequada (página "Sugerir sala"). O utilizador a 
 ao horário é o item 5 (e o item 8).
 
 **Porquê os itens 4 e 5?** São os mais fáceis de fazer bem com os dados que o professor deu (inscritos, capacidades,
-tipos de sala, horas). O item 3 precisava de dados que não temos (professores, planos de estudo) e é muito maior.
+tipos de sala, horas).
 
 ---
 
@@ -98,7 +96,7 @@ na mesma sala sempre que isso não custa nenhum problema (secção 5.6).
 
 **Exemplo que nos fez rever a regra:** o turno DCCTIS02 tem, às quartas, uma semana das 18:00 às 19:00 e quatro das
 18:00 às 20:00. É a mesma aula semanal (os horários sobrepõem-se); a regra antiga exigia horas exatamente iguais e
-tratava-as como aulas diferentes. Agora é um só bloco por dia, e na solução as cinco semanas ficam todas no Auditório B2.04 (74 inscritos; a B2.02, com 52 lugares, ficava sobrelotada).
+tratava-as como aulas diferentes. Agora é um só bloco por dia, e na solução as cinco semanas ficam todas no Auditório B2.04 (74 inscritos). Antes ficavam na B2.02, que tem apenas 52 lugares ou seja para além de continuar sempre na mesma sala já não fica numa sala sobrelotada.
 
 ### 5.2 Choques
 
@@ -125,13 +123,12 @@ Esta é a parte mais importante. Além da solução, o solver calcula um **limit
 que **não existe nenhuma solução melhor**.
 
 No nosso caso: **solução = limite inferior = 677 aulas com problemas**, em todos os dias da semana.
-Responde à pergunta "quem nos garante que não há melhor?": o próprio solver garante.
 
 ### 5.5 Truques para o solver terminar em minutos
 
 Na primeira tentativa, o solver esteve 4 minutos só na terça-feira e não terminou. Estes truques resolveram:
 
-1. **Um dia da semana de cada vez.** Uma aula de segunda nunca choca com uma de terça, por isso cada dia é um problema
+1. **Um dia da semana de cada vez.** Uma aula de segunda nunca choca com uma de terça (até porque na nossa otimização as aulas nunca mudam em data/hora), por isso cada dia é um problema
    independente e mais pequeno.
 2. **Juntar salas iguais.** Salas com a mesma capacidade e características são intercambiáveis: para os problemas,
    tanto faz pôr a aula na C2.01 ou na C2.02. Em vez de "o bloco vai para a C2.01", o solver decide "o bloco vai para
@@ -140,7 +137,7 @@ Na primeira tentativa, o solver esteve 4 minutos só na terça-feira e não term
    choques e sem piorar nenhum problema.
 3. **Plano B.** Se o truque 2 prometer uma solução que, ao escolher as salas concretas, se revela impossível, esse dia
    é resolvido **sala a sala**, sem o atalho. O valor dos grupos continua a ser um limite inferior válido.
-4. **Boa solução inicial.** Damos ao solver a solução da pesquisa tabu (a melhor heurística) como ponto de partida. Não muda o ótimo, só o
+4. **Boa solução inicial.** Damos ao solver a solução da pesquisa tabu (a melhor das heurísticas) como ponto de partida. Não muda o ótimo, só o
    ajuda a chegar lá mais depressa.
 
 Com isto, a solução principal fica calculada em **cerca de 3 minutos** num portátil normal.
