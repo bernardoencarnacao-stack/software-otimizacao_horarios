@@ -1,4 +1,5 @@
 # Gestão de horários do ISCTE
+Bernardo Encarnação nº123457 | Pedro Portugal nº122412 | Tomás Saraiva nº142847
 
 **Otimização e Decisão em Engenharia de Software · Projeto 1 · Itens 4 e 5**
 
@@ -6,9 +7,13 @@
   tipo de sala.
 - **Item 5:** comparar propostas de alteração ao horário feitas por diferentes utilizadores.
 
-**App online:** [link] · **Trello:** [link] · **Relatório:** [`docs/Relatorio_Horarios_ISCTE.docx`](docs/Relatorio_Horarios_ISCTE.docx)
+**App online:** https://software-otimizacaohorarios-vb4zxc24yt8ktpfzds5wv9.streamlit.app/
 
-Para perceber o projeto de ponta a ponta por favor ler: **[GUIA.md](GUIA.md)**.
+**Trello:** https://trello.com/b/IbBfTb2Z/software-otimizacaohorarios
+
+**Relatório:** [`docs/Relatorio_Horarios_ISCTE.docx`](docs/Relatorio_Horarios_ISCTE.docx)
+
+Para perceber o projeto de ponta a ponta **por favor** ler: **[GUIA.md](GUIA.md)**.
 
 ## Em resumo
 
