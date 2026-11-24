@@ -80,9 +80,7 @@ Agora há **duas restrições**, **uma regra obrigatória** e **um objetivo**, s
   ("número de estudantes inscritos e o tipo de sala").
 - **Preferência (só depois):** entre as soluções com esse mínimo, pôr a mesma aula **na mesma sala de semana para
   semana**. Mudar de sala entre semanas é permitido - é muito menos mau do que mudar a meio da aula - mas evitamos
-  quando não custa nada.
-
-Isto chama-se **otimização lexicográfica** (por ordem de prioridade): a preferência nunca piora o objetivo.
+  quando não custa nada. (otimização lexicográfica)
 
 ---
 
@@ -262,7 +260,7 @@ custa de mais aulas em sala de tipo errado). Se o ISCTE preferir garantir lugar 
 alternativa.
 
 **Porque é que não há "pesos à escolha"?** Cada solução exata demora alguns minutos. E soluções aproximadas podem ser
-piores em tudo do que outras, que era o problema da versão anterior.
+piores em tudo do que outras, que era um dos problemas da versão que havíamos feito anteriormente.
 
 ---
 
@@ -292,7 +290,7 @@ As 3 propostas de exemplo **fomos nós que as simulámos** (`scripts/criar_exemp
 
 ## 10. A app (`app.py`)
 
-Feita com **Streamlit** (biblioteca de Python que transforma um script numa página web). App tem 5 páginas/abas:
+Feita com **Streamlit** (biblioteca de Python que transforma um script numa página web). A app tem 5 páginas/abas:
 
 1. **Início:** o que fizemos, as regras e o resultado em resumo; depois, o horário atual (números e lista de aulas
    com problemas, por curso).
@@ -338,45 +336,7 @@ Estão em `docs/diagramas/` e também no relatório.
 
 ---
 
-## 13. Perguntas que o professor pode fazer
-
-**"Quem define os pesos?"**
-Ninguém: não há pesos. O objetivo é o que o enunciado pede (inscritos e tipo de sala), com os dois a contar igual.
-A mesma sala entre semanas é só uma preferência, que nunca piora o objetivo. As prioridades (no fim da página "Solução ótima") são um extra.
-
-**"Quem vos garante que não há uma solução melhor?"**
-O solver. Além da solução, calcula um limite inferior. Como a solução é igual ao limite em todos os dias, está provado
-que é impossível ter menos de 677 aulas com problemas sem mexer nos dias e horas (e sem mudar ninguém de sala a meio).
-
-**"Porquê o HiGHS?"**
-Open source (MIT), gratuito, o melhor open source nos benchmarks segundo os autores, e o solver por omissão do SciPy
-e do MATLAB. Ver secção 6.
-
-**"Então porque falam de pesquisa tabu e algoritmos genéticos?"**
-Porque testámos e documentámos. As heurísticas eram a primeira ideia (e são o que se usa quando o problema é grande
-demais para um método exato), mas aqui ficavam 25% acima do ótimo. A comparação com o solver exato mostrou
-isso, e por isso mudámos de método. É a "tentativa e erro" que o professor pediu.
-
-**"Porque é que sobrelotação e tipo de sala contam igual?"**
-Porque são os dois requisitos que o enunciado põe lado a lado, e ambos significam "uma aula que não corre como
-devia". Se o ISCTE achar que um é mais importante, a página "Solução ótima" mostra também as soluções ótimas para cada prioridade.
-
-**"Uma aula pode mudar de sala?"**
-A meio, nunca: aulas seguidas ou sobrepostas do mesmo turno no mesmo dia ficam na mesma sala (é obrigatório). De
-semana para semana pode, mas só quando isso evita problemas: 1 005 aulas em 24 748 (4%) estão fora da sala
-habitual, menos do que no horário atual (1 299). Obrigar a mesma sala todas as semanas custaria 155 aulas com
-problemas a mais.
-
-**"O que é um limite inferior?"**
-Um valor abaixo do qual é impossível descer. O solver obtém-no resolvendo versões "relaxadas" do problema (mais
-fáceis, em que as decisões podem ser fracionárias) e dividindo-o em casos.
-
-**"As propostas do item 5 são reais?"**
-Não, simulámo-las para demonstrar a app. Qualquer pessoa pode carregar uma proposta real em CSV.
-
----
-
-## 14. Onde está cada coisa no código
+## 13. Onde está cada coisa no código
 
 | Ficheiro | O que tem |
 |---|---|
@@ -390,7 +350,3 @@ Não, simulámo-las para demonstrar a app. Qualquer pessoa pode carregar uma pro
 | `scripts/criar_exemplos.py` | as 3 propostas de exemplo do item 5 |
 | `scripts/verificar.py` | confirma as soluções sem usar o solver |
 | `app.py` | a aplicação web |
-
-Sugestão para dividir o estudo pelo grupo: uma pessoa fica com os dados e os indicadores (secções 2-3), outra com o
-objetivo e o modelo exato (4-5), outra com a justificação do método e as heurísticas (6-7), e outra com o item 5 e a
-app (8-12).
