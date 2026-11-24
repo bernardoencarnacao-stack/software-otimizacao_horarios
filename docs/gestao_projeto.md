@@ -1,10 +1,13 @@
 # Gestão do projeto (Scrum, Trello e GitHub)
 
-O enunciado pede: (1) um processo de gestão do projeto, (2) uma plataforma digital de apoio, (3) todos os artefactos
-no GitHub e (4) documentação em UML e BPMN. Este documento trata dos três primeiros. Os diagramas estão em
-`docs/diagramas/` (explicados no `GUIA.md`, secção 12).
+O enunciado pede: 
+1. um processo de gestão do projeto
+2. uma plataforma digital de apoio
+3. todos os artefactos no GitHub
+4. documentação em UML e BPMN.
 
-Os campos `[...]` são para o grupo preencher.
+Este documento trata dos dois primeiros. Sendo que o terceiro é próprio repositório onde este documento se encontra. Os diagramas estão em
+`docs/diagramas/` (explicados no `GUIA.md`, secção 12).
 
 ---
 
@@ -17,9 +20,9 @@ grupo ao rever a app). O Scrum trabalha em ciclos curtos (sprints de 1 semana), 
 
 | Papel | Quem | O que faz |
 |---|---|---|
-| Product Owner | [nome] | decide a ordem das tarefas; fala com o "cliente" (o professor) |
-| Scrum Master | [nome] | marca as reuniões e mantém o Trello em dia |
-| Equipa | [nomes] | todos: código, testes e documentação |
+| Product Owner | Bernardo Encarnação, Pedro Portugal e Tomás Saraiva | decide a ordem das tarefas; fala com o "cliente" (o professor) |
+| Scrum Master | Bernardo Encarnação, Pedro Portugal e Tomás Saraiva | marca as reuniões e mantém o Trello em dia |
+| Equipa | Bernardo Encarnação | todos: código, testes e documentação |
 
 **Reuniões**
 
@@ -62,9 +65,9 @@ aparece na app e a decisão está explicada no `GUIA.md`.
 | 12 | 2 | Como professor quero documentação em notações padrão | Diagramas UML e BPMN | Feito |
 | 13 | 2 | Como utilizador quero uma sugestão de sala para uma aula | Página "Sugerir sala" | Feito |
 | 14 | 2 | Como aluno não quero mudar de sala a meio da aula | Regra dos blocos | Feito |
-| 15 | 3 | Como professor quero aceder à app | Publicar no Streamlit Cloud | [estado] |
-| 16 | 3 | Como grupo quero validar os pressupostos | Confirmar tipos de sala com o professor | [estado] |
-| 17 | 3 | Como professor quero o relatório final | Relatório e apresentação | [estado] |
+| 15 | 3 | Como professor quero aceder à app | Publicar no Streamlit Cloud | Ficará feito na apresentação final |
+| 16 | 3 | Como grupo quero validar os pressupostos | Confirmar tipos de sala com o professor | Ficará feito na apresentação fina |
+| 17 | 3 | Como professor quero o relatório final | Relatório e apresentação | Ficará feito na apresentação fina |
 
 **Retrospetivas (o que aprendemos)**
 - Sprint 0: olhar para os dados antes de programar foi o que nos fez encontrar os nomes de salas estragados pelo Excel.
@@ -75,22 +78,6 @@ aparece na app e a decisão está explicada no `GUIA.md`.
 
 ## 3. Trello
 
-1. Em https://trello.com criem o quadro **"Horários ISCTE"** e convidem o grupo e o professor.
-2. Criem 4 listas: **Backlog**, **Sprint atual**, **Em curso** e **Feito**.
-3. Criem um cartão por linha da tabela de backlog. Para ir mais depressa, copiem a coluna "História" e colem-na
-   no campo "Adicionar um cartão": o Trello cria um cartão por linha.
-4. Ponham nos cartões uma etiqueta com o sprint (S0 a S3) e movam-nos para a lista certa.
-5. Link do quadro: [link]
+Em função deste ficheiro e metodologia SCRUM foi então criada um página Trello como forma de suporte uma visualização mais dinâmica das várias fases do projeto.
 
----
-
-## 4. GitHub
-
-O repositório tem todos os artefactos do projeto: código, dados, resultados, app, documentação, diagramas e
-relatório. É o mesmo repositório que o Streamlit Cloud usa para pôr a app online.
-
-- Repositório: [link]
-- App online: [link]
-
-Daqui para a frente: cada alteração entra com um commit de mensagem clara (ex.: "Página 4: mostrar choques de
-sala"), feito por quem a fez.
+Link para a Trello: https://trello.com/b/IbBfTb2Z/software-otimizacaohorarios
