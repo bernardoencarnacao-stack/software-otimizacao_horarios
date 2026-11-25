@@ -6,6 +6,8 @@
   tipo de sala.
 - **Item 5:** comparar propostas de alteração ao horário feitas por diferentes utilizadores.
 
+**GitHub**: https://github.com/bernardoencarnacao-stack/software-otimizacao_horarios
+
 **App online:** https://software-otimizacaohorarios-vb4zxc24yt8ktpfzds5wv9.streamlit.app/
 
 **Trello:** https://trello.com/b/IbBfTb2Z/software-otimizacaohorarios
